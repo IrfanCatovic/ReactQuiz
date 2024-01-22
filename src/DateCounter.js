@@ -6,11 +6,13 @@ function reducer(state, action) {
 
   switch (action.type) {
     case "dec":
-      return { ...state, count: state.count + 1 };
+      return { ...state, count: state.count - state.step };
     case "inc":
-      return { ...state, count: state.count - 1 };
+      return { ...state, count: state.count + state.step };
     case "setCount":
       return { ...state, count: action.payload };
+    case "setStep":
+      return { ...state, step: action.payload };
     default:
       throw new Error("Uknown action");
   }
@@ -25,6 +27,8 @@ function DateCounter() {
 
   const initialState = { count: 0, step: 1 };
   const [state, dispatch] = useReducer(reducer, initialState);
+  //this dispatch we need bcs we call reducer function with it
+  //it's like setState
   const { count, step } = state;
 
   // This mutates the date object.
@@ -49,6 +53,7 @@ function DateCounter() {
   };
 
   const defineStep = function (e) {
+    dispatch({ type: "setStep", payload: Number(e.target.value) });
     // setStep({ type: "setCount", payload: Number(e.target.value) });
     // setStep(Number(e.target.value));
   };
