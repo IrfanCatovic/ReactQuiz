@@ -13,6 +13,8 @@ function reducer(state, action) {
       return { ...state, count: action.payload };
     case "setStep":
       return { ...state, step: action.payload };
+    case "reset":
+      return { count: 0, step: 1 };
     default:
       throw new Error("Uknown action");
   }
@@ -59,6 +61,7 @@ function DateCounter() {
   };
 
   const reset = function () {
+    dispatch({ type: "reset" });
     // setCount(0);
     // setStep(1);
   };
