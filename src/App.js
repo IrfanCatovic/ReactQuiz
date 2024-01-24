@@ -1,8 +1,11 @@
 // import DateCounter from "./DateCounter";
-import { useEffect } from "react";
+import { useEffect, useReducer } from "react";
 import Header from "./Header";
 import Main from "./Main";
-import { useReducer } from "react";
+import Loader from "./Loader";
+import Error from "./Error";
+import Question from "./Question";
+import StartScreen from "./StartScreen";
 
 const initialState = {
   questions: [],
@@ -24,6 +27,11 @@ function reducer(state, action) {
         ...state,
         status: "error",
       };
+    case "start":
+      return {
+        ...state,
+        status: "active",
+      };
 
     default:
       throw new Error("Action uknown");
@@ -31,15 +39,17 @@ function reducer(state, action) {
 }
 
 export default function App() {
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [{ questions, status }, dispatch] = useReducer(reducer, initialState);
+
+  const numQuestions = questions.length; // ovo je question is REDUCERA
 
   useEffect(function () {
     fetch("http://localhost:8000/questions") //run it on mount
       .then((res) => res.json()) //we get response we need to convert in json
-      .then((data) => dispatch({ type: "dataReceived", payload: data })) //will return another promise and we need to chain another then
-      //and this gives us another data and we use that data
+      .then((data) => dispatch({ type: "dataReceived", payload: data })) //will return another promise and we need to chain another then and this gives us another data and we use that data
+
       .catch((err) => dispatch({ type: "dataFailed" })); //we catch errors
-  });
+  }, []);
 
   return (
     <div className="app">
@@ -47,8 +57,12 @@ export default function App() {
       <Header />
 
       <Main className="main">
-        <p>1/15</p>
-        <p>Question?</p>
+        {status === "loading" && <Loader />}
+        {status === "error" && <Error />}
+        {status === "ready" && (
+          <StartScreen numQuestions={numQuestions} dispatch={dispatch} />
+        )}
+        {status === "active" && <Question />}
       </Main>
     </div>
   );
