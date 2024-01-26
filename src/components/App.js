@@ -7,6 +7,7 @@ import Error from "./Error";
 import Question from "./Question";
 import StartScreen from "./StartScreen";
 import NextButton from "./NextButton";
+import Progress from "./Progress";
 
 const initialState = {
   questions: [],
@@ -57,12 +58,19 @@ function reducer(state, action) {
 }
 
 export default function App() {
-  const [{ questions, status, index, answer }, dispatch] = useReducer(
+  const [{ questions, status, index, answer, points }, dispatch] = useReducer(
     reducer,
     initialState
   );
 
   const numQuestions = questions.length; // ovo je question is REDUCERA
+  const maxPosiblePoints = questions.reduce(
+    (prev, cur) => prev + cur.points, //istrazi na chatGPT kako radi tacno
+    0
+    //reduce prolazi kroz ceo niz i razlaze ga
+    //imamo pocetnu vrednost, prethodnu vrednost i trenutnu
+    // pocetna nam je 0, prethodna je 0 + cur
+  );
 
   useEffect(function () {
     fetch("http://localhost:8000/questions") //run it on mount
@@ -85,6 +93,12 @@ export default function App() {
         )}
         {status === "active" && (
           <>
+            <Progress
+              index={index}
+              numQuestions={numQuestions}
+              points={points}
+              maxPosiblePoints={maxPosiblePoints}
+            />
             <Question
               questions={questions[index]}
               dispatch={dispatch}
