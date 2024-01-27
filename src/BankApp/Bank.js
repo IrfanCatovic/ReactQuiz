@@ -13,7 +13,18 @@ function reducer(state, action) {
   switch (action.type) {
     case "openAccount":
       return {
+        ...state,
         status: "created",
+      };
+    case "deposite":
+      return {
+        ...state,
+        balance: state.balance + 150,
+      };
+    case "withdraw":
+      return {
+        ...state,
+        balance: state.balance - 50,
       };
     default:
       throw new Error("Action uknown");
@@ -37,7 +48,7 @@ function Bank() {
       >
         Open account
       </button>
-      {status === "prepare" ? <Disabled /> : <Enabled />}
+      {status === "prepare" ? <Disabled /> : <Enabled dispatch={dispatch} />}
     </div>
   );
 }
