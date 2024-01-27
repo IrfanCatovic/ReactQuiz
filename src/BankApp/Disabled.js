@@ -1,4 +1,4 @@
-function Enabled() {
+function Disabled() {
   return (
     <div className="bankApp">
       <button>Deposit 150</button>
@@ -10,4 +10,4 @@ function Enabled() {
   );
 }
 
-export default Enabled;
+export default Disabled;

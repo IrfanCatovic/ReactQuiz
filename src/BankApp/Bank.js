@@ -30,7 +30,7 @@ function Bank() {
       <h2>Balance: X</h2>
       <h2>Loan: X</h2>
 
-      <button>Open account</button>
+      <button className="btn btn-ui">Open account</button>
       {status === "prepare" ? <Enabled /> : ""}
     </div>
   );
