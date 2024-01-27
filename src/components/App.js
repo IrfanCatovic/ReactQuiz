@@ -9,6 +9,7 @@ import StartScreen from "./StartScreen";
 import NextButton from "./NextButton";
 import Progress from "./Progress";
 import FinishScreen from "./FinishScreen";
+import Bank from "../BankApp/Bank";
 
 const initialState = {
   questions: [],
@@ -138,6 +139,7 @@ export default function App() {
           />
         )}
       </Main>
+      {/* <Bank /> */}
     </div>
   );
 }
