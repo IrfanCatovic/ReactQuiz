@@ -26,6 +26,34 @@ function reducer(state, action) {
         ...state,
         balance: state.balance - 50,
       };
+    case "takeLoan":
+      if (state.loan > 0)
+        return {
+          ...state,
+        };
+      return {
+        ...state,
+        loan: state.loan + 5000,
+        balance: state.balance + 5000,
+      };
+    case "payLoan":
+      return {
+        ...state,
+        balance: state.balance - state.loan,
+        loan: 0,
+      };
+    case "closeAcc":
+      if (state.loan !== 0 && state.balance !== 0)
+        return {
+          ...state,
+          status: "obavestenje",
+        };
+      return {
+        balance: 0,
+        loan: 0,
+        isActive: false,
+        status: "prepare",
+      };
     default:
       throw new Error("Action uknown");
   }
@@ -39,8 +67,8 @@ function Bank() {
   return (
     <div className="app">
       <h1>useReducer Bank Account</h1>
-      <h2>Balance: X</h2>
-      <h2>Loan: X</h2>
+      <h2>Balance: {balance}</h2>
+      <h2>Loan: {loan}</h2>
 
       <button
         className="btn btn-ui"
@@ -49,6 +77,7 @@ function Bank() {
         Open account
       </button>
       {status === "prepare" ? <Disabled /> : <Enabled dispatch={dispatch} />}
+      {status === "obavestenje" && <h2>Izmirite dugovanja</h2>}
     </div>
   );
 }

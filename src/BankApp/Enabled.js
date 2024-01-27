@@ -7,9 +7,13 @@ function Enabled({ dispatch }) {
       <button onClick={() => dispatch({ type: "withdraw" })}>
         Withdraw 50
       </button>
-      <button>Request a loan of 5000</button>
-      <button>Pay loan</button>
-      <button>Close account</button>
+      <button onClick={() => dispatch({ type: "takeLoan" })}>
+        Request a loan of 5000
+      </button>
+      <button onClick={() => dispatch({ type: "payLoan" })}>Pay loan</button>
+      <button onClick={() => dispatch({ type: "closeAcc" })}>
+        Close account
+      </button>
     </div>
   );
 }
