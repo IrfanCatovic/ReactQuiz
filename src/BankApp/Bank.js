@@ -3,8 +3,8 @@ import Enabled from "./Enabled";
 import Disabled from "./Disabled";
 
 const initialState = {
-  balance: 0,
   loan: 0,
+  balance: 0,
   isActive: false,
   status: "prepare",
 };
@@ -14,6 +14,7 @@ function reducer(state, action) {
     case "openAccount":
       return {
         ...state,
+        balance: 500,
         status: "created",
       };
     case "deposite":
@@ -43,17 +44,24 @@ function reducer(state, action) {
         loan: 0,
       };
     case "closeAcc":
-      if (state.loan !== 0 && state.balance !== 0)
+      console.log(state.loan, state.balance);
+      if (state.loan !== 0 || state.balance > 0)
         return {
           ...state,
           status: "obavestenje",
         };
-      return {
-        balance: 0,
-        loan: 0,
-        isActive: false,
-        status: "prepare",
-      };
+      return initialState;
+
+    //   return {
+    //     ...state,
+    //     status: "obavestenje",
+    //   };
+    // return {
+    //   balance: 0,
+    //   loan: 0,
+    //   isActive: false,
+    //   status: "prepare",
+    // };
     default:
       throw new Error("Action uknown");
   }
