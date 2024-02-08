@@ -1,5 +1,7 @@
 // import DateCounter from "./DateCounter";
 import { useEffect, useReducer } from "react";
+import { BrowserRouter, Link, NavLink, Route, Routes } from "react-router-dom";
+
 import Header from "./Header";
 import Main from "./Main";
 import Loader from "./Loader";
@@ -9,6 +11,7 @@ import StartScreen from "./StartScreen";
 import NextButton from "./NextButton";
 import Progress from "./Progress";
 import FinishScreen from "./FinishScreen";
+
 import Bank from "../BankApp/Bank";
 
 const initialState = {
@@ -98,48 +101,51 @@ export default function App() {
   }, []);
 
   return (
-    <div className="app">
-      {/* <DateCounter /> */}
-      <Header />
+    <>
+      <div className="app">
+        {/* <DateCounter /> */}
+        <Header />
 
-      <Main className="main">
-        {status === "loading" && <Loader />}
-        {status === "error" && <Error />}
-        {status === "ready" && (
-          <StartScreen numQuestions={numQuestions} dispatch={dispatch} />
-        )}
-        {status === "active" && (
-          <>
-            <Progress
-              index={index}
-              numQuestions={numQuestions}
+        <Main className="main">
+          {status === "loading" && <Loader />}
+          {status === "error" && <Error />}
+          {status === "ready" && (
+            <StartScreen numQuestions={numQuestions} dispatch={dispatch} />
+          )}
+          {status === "active" && (
+            <>
+              <Progress
+                index={index}
+                numQuestions={numQuestions}
+                points={points}
+                maxPosiblePoints={maxPosiblePoints}
+                answer={answer}
+              />
+              <Question
+                questions={questions[index]}
+                dispatch={dispatch}
+                answer={answer}
+              />
+              <NextButton
+                dispatch={dispatch}
+                answer={answer}
+                index={index}
+                numQuestions={numQuestions}
+              />
+            </>
+          )}
+          {status === "finished" && (
+            <FinishScreen
               points={points}
               maxPosiblePoints={maxPosiblePoints}
-              answer={answer}
-            />
-            <Question
-              questions={questions[index]}
+              highScore={highScore}
               dispatch={dispatch}
-              answer={answer}
             />
-            <NextButton
-              dispatch={dispatch}
-              answer={answer}
-              index={index}
-              numQuestions={numQuestions}
-            />
-          </>
-        )}
-        {status === "finished" && (
-          <FinishScreen
-            points={points}
-            maxPosiblePoints={maxPosiblePoints}
-            highScore={highScore}
-            dispatch={dispatch}
-          />
-        )}
-      </Main>
-      {/* <Bank /> */}
-    </div>
+          )}
+        </Main>
+
+        {/* <Bank /> */}
+      </div>
+    </>
   );
 }
