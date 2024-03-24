@@ -1,4 +1,7 @@
-function NextButton({ dispatch, answer, index, numQuestions }) {
+import { useQuiz } from "./QuizContext";
+
+function NextButton() {
+  const { dispatch, answer, index, numQuestions } = useQuiz();
   if (answer === null) return null; //early return, proveravamo da li korisnik odgovorio, ako nije onda se ne pojavljuje dugme
 
   if (index < numQuestions - 1)

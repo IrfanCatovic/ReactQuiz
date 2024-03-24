@@ -1,14 +1,17 @@
-function Options({ questions, dispatch, answer }) {
+import { useQuiz } from "./QuizContext";
+
+function Options({ question }) {
+  const { dispatch, answer } = useQuiz();
   const hasAnswered = answer !== null;
 
   return (
     <div className="options">
-      {questions.options.map((option, index) => (
+      {question.options.map((option, index) => (
         <button
           className={`btn btn-option ${index === answer ? "answer" : ""} ${
             //proveravamo koji je odg selektovan i samo na njega dodajemo css
             hasAnswered //proveravamo da li ima odgovora
-              ? index === questions.correctOption //proveravamo da li je selektovani odg tacan
+              ? index === question.correctOption //proveravamo da li je selektovani odg tacan
                 ? "correct" // ako je tacan njega farbamo
                 : "wrong" //ostale farmabamo u zuto
               : "" //ako nema odgovora nema dodavanja klase
