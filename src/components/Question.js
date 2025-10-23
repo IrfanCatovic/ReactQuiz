@@ -6,7 +6,8 @@ function Question() {
   const question = questions.at(index);
   return (
     <div>
-      <h4>{questions.question}</h4>
+      <h4>{question.question}</h4>
+      {console.log(question.question)}
       <Options question={question} />
     </div>
   );
